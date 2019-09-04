@@ -332,6 +332,6 @@ with open('snli_autoannotationTags_results.csv', 'w') as csvfile:  #you name you
         acc = float(correct)/attempted
         totalpercent= float(attempted)/i
 
-        print tag, "\t", correct, "\t", attempted, "\t", acc, "\t", baseline, "\t", best_label, "\t", totalpercent
+        print(tag, "\t", correct, "\t", attempted, "\t", acc, "\t", baseline, "\t", best_label, "\t", totalpercent)
         writer.writerow([tag, correct, attempted, acc, baseline,  best_label, totalpercent])
 
