@@ -70,7 +70,8 @@ else:
                                         test_snli, test_matched, test_mismatched])
 
 logger.Log("Loading embeddings")
-loaded_embeddings = loadEmbedding_rand(FIXED_PARAMETERS["embedding_data_path"], word_indices)
+loaded_embeddings = loadEmbedding_rand(FIXED_PARAMETERS["embedding_data_path"], word_indices,
+                                       skip_header=FIXED_PARAMETERS["emb_skip_header"])
 
 
 class modelClassifier:

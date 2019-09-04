@@ -42,6 +42,7 @@ parser.add_argument("--learning_rate", type=float, default=0.001, help="Learning
 parser.add_argument("--keep_rate", type=float, default=0.5, help="Keep rate for dropout in the model")
 parser.add_argument("--seq_length", type=int, default=50, help="Max sequence length")
 parser.add_argument("--emb_train", action='store_true', help="Call if you want to make your word embeddings trainable.")
+parser.add_argument("--emb_skip_header", action='store_true', help="Call if you want to skip the first line of an embedding file.")
 
 parser.add_argument("--genre", type=str, help="Which genre to train on")
 parser.add_argument("--alpha", type=float, default=0., help="What percentage of SNLI data to use in training")
@@ -108,6 +109,7 @@ def load_parameters():
         "batch_size": 32,
         "learning_rate": args.learning_rate,
         "emb_train": args.emb_train,
+        "emb_skip_header": args.emb_skip_header,
         "alpha": args.alpha,
         "genre": args.genre
     }

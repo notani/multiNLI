@@ -122,7 +122,7 @@ def loadEmbedding_zeros(path, word_indices):
     return emb
 
 
-def loadEmbedding_rand(path, word_indices):
+def loadEmbedding_rand(path, word_indices, skip_header=True):
     """
     Load GloVe embeddings. Doing a random normal initialization for OOV words.
     """
@@ -134,8 +134,10 @@ def loadEmbedding_rand(path, word_indices):
 
     # Explicitly assign embedding of <PAD> to be zeros.
     emb[0:2, :] = np.zeros((1,m), dtype="float32")
-    
+
     with open(path, 'r') as f:
+        if skip_header:
+            continue
         for i, line in enumerate(f):
             if FIXED_PARAMETERS["embeddings_to_load"] != None:
                 if i >= FIXED_PARAMETERS["embeddings_to_load"]:
