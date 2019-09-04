@@ -140,7 +140,7 @@ def loadEmbedding_rand(path, word_indices, skip_header=True):
 
     with open(path, 'r') as f:
         if skip_header:
-            continue
+            next(f)
         for i, line in enumerate(f):
             if FIXED_PARAMETERS["embeddings_to_load"] != None:
                 if i >= FIXED_PARAMETERS["embeddings_to_load"]:
