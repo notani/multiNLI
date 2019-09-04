@@ -18,7 +18,7 @@ LABEL_MAP = {
 PADDING = "<PAD>"
 UNKNOWN = "<UNK>"
 
-def load_nli_data(path, snli=False):
+def load_nli_data(path, snli=False, lower=True):
     """
     Load MultiNLI or SNLI data.
     If the "snli" parameter is set to True, a genre label of snli will be assigned to the data. 
@@ -27,6 +27,9 @@ def load_nli_data(path, snli=False):
     with open(path) as f:
         for line in f:
             loaded_example = json.loads(line)
+            if lower:
+                loaded_example['sentence1_binary_parse'] = loaded_example['sentence1_binary_parse'].lower()
+                loaded_example['sentence2_binary_parse'] = loaded_example['sentence2_binary_parse'].lower()
             if loaded_example["gold_label"] not in LABEL_MAP:
                 continue
             loaded_example["label"] = LABEL_MAP[loaded_example["gold_label"]]

@@ -31,15 +31,15 @@ logger.Log("FIXED_PARAMETERS\n %s" % FIXED_PARAMETERS)
 ######################### LOAD DATA #############################
 
 logger.Log("Loading data")
-training_snli = load_nli_data(FIXED_PARAMETERS["training_snli"], snli=True)
-dev_snli = load_nli_data(FIXED_PARAMETERS["dev_snli"], snli=True)
-test_snli = load_nli_data(FIXED_PARAMETERS["test_snli"], snli=True)
+training_snli = load_nli_data(FIXED_PARAMETERS["training_snli"], snli=True, lower=FIXED_PARAMETERS["lower"])
+dev_snli = load_nli_data(FIXED_PARAMETERS["dev_snli"], snli=True, lower=FIXED_PARAMETERS["lower"])
+test_snli = load_nli_data(FIXED_PARAMETERS["test_snli"], snli=True, lower=FIXED_PARAMETERS["lower"])
 
-training_mnli = load_nli_data(FIXED_PARAMETERS["training_mnli"])
-dev_matched = load_nli_data(FIXED_PARAMETERS["dev_matched"])
-dev_mismatched = load_nli_data(FIXED_PARAMETERS["dev_mismatched"])
-test_matched = load_nli_data(FIXED_PARAMETERS["test_matched"])
-test_mismatched = load_nli_data(FIXED_PARAMETERS["test_mismatched"])
+training_mnli = load_nli_data(FIXED_PARAMETERS["training_mnli"], lower=FIXED_PARAMETERS["lower"])
+dev_matched = load_nli_data(FIXED_PARAMETERS["dev_matched"], lower=FIXED_PARAMETERS["lower"])
+dev_mismatched = load_nli_data(FIXED_PARAMETERS["dev_mismatched"], lower=FIXED_PARAMETERS["lower"])
+test_matched = load_nli_data(FIXED_PARAMETERS["test_matched"], lower=FIXED_PARAMETERS["lower"])
+test_mismatched = load_nli_data(FIXED_PARAMETERS["test_mismatched"], lower=FIXED_PARAMETERS["lower"])
 
 if 'temp.jsonl' in FIXED_PARAMETERS["test_matched"]:
     # Removing temporary empty file that was created in parameters.py

@@ -41,6 +41,7 @@ parser.add_argument("--emb_to_load", type=int, default=None, help="Number of emb
 parser.add_argument("--learning_rate", type=float, default=0.001, help="Learning rate for model")
 parser.add_argument("--keep_rate", type=float, default=0.5, help="Keep rate for dropout in the model")
 parser.add_argument("--seq_length", type=int, default=50, help="Max sequence length")
+parser.add_argument("--lower", action='store_true', help="Call if you want to lowercase.")
 parser.add_argument("--emb_train", action='store_true', help="Call if you want to make your word embeddings trainable.")
 parser.add_argument("--emb_skip_header", action='store_true', help="Call if you want to skip the first line of an embedding file.")
 
@@ -105,6 +106,7 @@ def load_parameters():
         #"word_embedding_dim": 50,
         #"hidden_embedding_dim": 50,
         "seq_length": args.seq_length,
+        "lower": args.lower,
         "keep_rate": args.keep_rate, 
         "batch_size": 32,
         "learning_rate": args.learning_rate,
