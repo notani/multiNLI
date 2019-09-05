@@ -16,7 +16,7 @@ LABEL_MAP = {
 }
 
 PADDING = "<PAD>"
-UNKNOWN = "<UNK>"
+UNKNOWN = "<unk>"
 
 def load_nli_data(path, snli=False, lower=True):
     """
@@ -133,11 +133,13 @@ def loadEmbedding_rand(path, word_indices, skip_header=True):
     m = FIXED_PARAMETERS["word_embedding_dim"]
     emb = np.empty((n, m), dtype=np.float32)
 
-    emb[:,:] = np.random.normal(size=(n,m))
+    # Randomly initialize <unk> vector
+    emb[0, :] = np.random.normal(size=m)
 
     # Explicitly assign embedding of <PAD> to be zeros.
-    emb[0:2, :] = np.zeros((1,m), dtype="float32")
+    emb[1, :] = np.zeros((1,m), dtype="float32")
 
+    initialized = set()
     with open(path, 'r') as f:
         if skip_header:
             next(f)
@@ -145,10 +147,15 @@ def loadEmbedding_rand(path, word_indices, skip_header=True):
             if FIXED_PARAMETERS["embeddings_to_load"] != None:
                 if i >= FIXED_PARAMETERS["embeddings_to_load"]:
                     break
-            
+
             s = line.split()
             if s[0] in word_indices:
                 emb[word_indices[s[0]], :] = np.asarray(s[1:])
+                initialized.add(word_indices[s[0]])
+
+    # Assign <unk> vector to OOV words
+    not_initialized = [i for i in range(n) if i not in initialized]
+    emb[not_initialized, :] = emb[0, :]
 
     return emb
 

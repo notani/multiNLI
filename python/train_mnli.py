@@ -182,10 +182,10 @@ class modelClassifier:
                 if self.step % self.display_step_freq == 0:
                     dev_acc_mat, dev_cost_mat = evaluate_classifier(self.classify, dev_mat, self.batch_size)
                     dev_acc_mismat, dev_cost_mismat = evaluate_classifier(self.classify, dev_mismat, self.batch_size)
-                    dev_acc_snli, dev_cost_snli = evaluate_classifier(self.classify, dev_snli, self.batch_size)
                     mtrain_acc, mtrain_cost = evaluate_classifier(self.classify, train_mnli[0:5000], self.batch_size)
 
                     if self.alpha != 0.:
+                        dev_acc_snli, dev_cost_snli = evaluate_classifier(self.classify, dev_snli, self.batch_size)
                         strain_acc, strain_cost = evaluate_classifier(self.classify, train_snli[0:5000], self.batch_size)
                         logger.Log("Step: %i\t Dev-matched acc: %f\t Dev-mismatched acc: %f\t \
                             Dev-SNLI acc: %f\t MultiNLI train acc: %f\t SNLI train acc: %f" 
@@ -195,11 +195,11 @@ class modelClassifier:
                             % (self.step, dev_cost_mat, dev_cost_mismat, dev_cost_snli, mtrain_cost, strain_cost))
                     else:
                         logger.Log("Step: %i\t Dev-matched acc: %f\t Dev-mismatched acc: %f\t \
-                            Dev-SNLI acc: %f\t MultiNLI train acc: %f" %(self.step, dev_acc_mat, 
-                                dev_acc_mismat, dev_acc_snli, mtrain_acc))
+                            Dev-SNLI acc: n/a\t MultiNLI train acc: %f" %(self.step, dev_acc_mat, 
+                                dev_acc_mismat, mtrain_acc))
                         logger.Log("Step: %i\t Dev-matched cost: %f\t Dev-mismatched cost: %f\t \
-                            Dev-SNLI cost: %f\t MultiNLI train cost: %f" %(self.step, dev_cost_mat, 
-                                dev_cost_mismat, dev_cost_snli, mtrain_cost))
+                            Dev-SNLI cost: n/a\t MultiNLI train cost: %f" %(self.step, dev_cost_mat, 
+                                dev_cost_mismat, mtrain_cost))
 
                 if self.step % 500 == 0:
                     self.saver.save(self.sess, ckpt_file)
@@ -221,7 +221,7 @@ class modelClassifier:
             # Display some statistics about the epoch
             if self.epoch % self.display_epoch_freq == 0:
                 logger.Log("Epoch: %i\t Avg. Cost: %f" %(self.epoch+1, avg_cost))
-            
+
             self.epoch += 1 
             self.last_train_acc[(self.epoch % 5) - 1] = mtrain_acc
 
