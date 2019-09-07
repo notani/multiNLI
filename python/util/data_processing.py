@@ -133,13 +133,13 @@ def loadEmbedding_rand(path, word_indices, skip_header=True):
     m = FIXED_PARAMETERS["word_embedding_dim"]
     emb = np.empty((n, m), dtype=np.float32)
 
-    # Randomly initialize <unk> vector
-    emb[0, :] = np.random.normal(size=m)
-
     # Explicitly assign embedding of <PAD> to be zeros.
-    emb[1, :] = np.zeros((1,m), dtype="float32")
+    emb[word_indices[PADDING], :] = np.zeros((1,m), dtype="float32")
 
-    initialized = set()
+    # Randomly initialize <unk> vector
+    emb[word_indices[UNKNOWN], :] = np.random.normal(size=m)
+
+    initialized = set([word_indices[PADDING]])
     with open(path, 'r') as f:
         if skip_header:
             next(f)
@@ -155,7 +155,7 @@ def loadEmbedding_rand(path, word_indices, skip_header=True):
 
     # Assign <unk> vector to OOV words
     not_initialized = [i for i in range(n) if i not in initialized]
-    emb[not_initialized, :] = emb[0, :]
+    emb[not_initialized, :] = emb[word_indices[UNKNOWN], :]
 
     return emb
 
